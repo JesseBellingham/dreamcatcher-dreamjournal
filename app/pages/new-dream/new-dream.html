@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Last night I dreamt...
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="about">
+    <ion-item>
+        <ion-label>Name (optional)</ion-label>
+        <ion-textarea [(ngModel)]="newDream.title"></ion-textarea>
+    </ion-item>
+    <ion-item>
+        <ion-label stacked>What happened...</ion-label>
+        <ion-textarea [(ngModel)]="newDream.text"></ion-textarea>
+    </ion-item>
+    <button ion-item (click)="createNewDream()">Add dream</button>
+</ion-content>

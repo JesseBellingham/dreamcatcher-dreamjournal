@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      My Dreams
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="dreams.length">
+    <ion-list-header>Follow us on Twitter</ion-list-header>
+    <ion-item *ngFor="let dream of dreams">
+        {{dream.text}}
+      <!-- <ion-icon name="ionic" item-left></ion-icon>
+      @ionicframework -->
+    </ion-item>
+  </ion-list>
+</ion-content>
