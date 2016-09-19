@@ -4,7 +4,7 @@ var mongojs = require('mongojs');
 var db =  mongojs('mongodb://jbellingham91:jesse1991@ds033126.mlab.com:33126/dreamcatcher', ['dream']);
 
 /* GET all dreams */
-router.get('/dreams', function(req, res, next) {
+router.get('/dream', function(req, res, next) {
     db.dream.find(function(err, dreams) {
         if (err) {
             res.send(err);

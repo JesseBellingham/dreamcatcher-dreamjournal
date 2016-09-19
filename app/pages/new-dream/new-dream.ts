@@ -8,26 +8,29 @@ import { DreamService } from '../../services/dream-service';
     providers: [DreamService]
 })
 export class NewDreamPage {
-    public dreamArray = [];
-    public userId = 1;
+    private userId = localStorage.getItem('id_token');
+    //private dateNow = new Date().toLocaleDateString;
     public newDream = {
-        title: "",
-        text: "",
+        title: undefined,
+        text: undefined,
         rating: 0,
-        userId: this.userId
+        userId: this.userId,
+        dateAdded: undefined
     };
 
     constructor(public navCtrl: NavController, private dreamService: DreamService) {}
 
     createNewDream() {
-        this.dreamService.addDream(this.newDream.title, this.newDream.text, this.newDream.rating)
+        let date = new Date();
+        this.newDream.dateAdded = date.toUTCString();
+        this.dreamService.addDream(this.newDream)
          .subscribe(
              data => this.newDream = data,
              err => console.error(err)
          );
 
         //var dream = this.newDream;
-        this.dreamArray.push(this.newDream);
+        //this.dreamArray.push(this.newDream);
     }
     //dreamListComponent.getDreams()
 }

@@ -1,10 +1,17 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Login</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Login</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding class="login">
-  <h2>Dreamcatcher - The Dream Journal</h2>
-  <button (click)="login()">Facebook login</button>
+    <h2>Dreamcatcher - The Dream Journal</h2>
+    <!-- <div class="button-wrapper">
+        <button (click)="login()">Facebook login</button>
+    </div> -->
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Auth0 - Angular 2</a>
+        <button class="btn btn-primary btn-margin" (click)="authService.login()" *ngIf="!authService.authenticated()">Log In</button>
+        <button class="btn btn-primary btn-margin" (click)="authService.logout()" *ngIf="authService.authenticated()">Log Out</button>
+    </div>
 </ion-content>

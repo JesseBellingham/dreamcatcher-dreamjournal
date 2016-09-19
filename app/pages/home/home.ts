@@ -1,13 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, Platform, Page } from 'ionic-angular';
-import { FbProvider } from '../../providers/fb-provider';
+//import { FbProvider } from '../../providers/fb-provider';
+import {AuthService} from '../../services/auth-service';
+import {LoginPage} from '../login/login';
 
 @Component({
     templateUrl: 'build/pages/home/home.html',
-    providers: [FbProvider]
+    providers: [AuthService]
 })
 export class HomePage {
-    constructor(public navCtrl: NavController, private fbProvider: FbProvider) {
+    constructor(public navCtrl: NavController, private authService: AuthService) {
+        this.authService.userAuthenticated.subscribe(
+            authToken => {
+                if (!authToken) {
+                    this.navCtrl.setRoot(LoginPage);
+                    this.navCtrl.popToRoot();
+                }
+        })
         // this.platform = platform;
         // this.fb = fbProvider;
         // this.email = '';
@@ -15,15 +24,7 @@ export class HomePage {
         // this.id = '';
     }
 
-    login() {
-        this.fbProvider.login();//.then(() => {
-            // this.fbProvider.getCurrentUserProfile().then(
-            //     (profileData) => {
-            //         this.email = profileData.email;
-            //         this.name = profileData.name;
-            //         this.id = profileData.id;
-            //     }
-            // );
-        
+    logout() {
+        this.authService.logout();
     };
 }

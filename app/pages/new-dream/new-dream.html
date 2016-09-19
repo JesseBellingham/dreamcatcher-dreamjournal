@@ -15,5 +15,5 @@
         <ion-label stacked>What happened...</ion-label>
         <ion-textarea [(ngModel)]="newDream.text"></ion-textarea>
     </ion-item>
-    <button ion-item (click)="createNewDream()">Add dream</button>
+    <button ion-item (click)="createNewDream()" [disabled]="!newDream.text">Add dream</button>
 </ion-content>

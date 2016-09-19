@@ -1,9 +1,10 @@
 export class Dream {
     constructor(
-        public id: number,
+        public id: string,
         public title: string,
         public text: string,
         public rating: number,
-        public userId: number
+        public userId: string,
+        public dateAdded: string
     ) {}
 }

@@ -26,9 +26,11 @@ app.use(function(req, res, next) {
  
 // Models
 var Dream = mongoose.model('Dream', {
+    userId: String,
     title: String,
     text: String,
-    rating: Number
+    rating: Number,
+    dateAdded: String
 });
  
 // Routes
@@ -55,10 +57,12 @@ var Dream = mongoose.model('Dream', {
  
         // create a dream, information comes from AJAX request from Ionic
         Dream.create({
-            title : req.body.title,
-            text : req.body.text,
+            userId: req.body.userId,
+            title: req.body.title,
+            text: req.body.text,
             rating: req.body.rating,
-            done : false
+            dateAdded: req.body.dateAdded//,
+            //done: false
         }, function(err, review) {
             if (err)
                 res.send(err);

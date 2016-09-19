@@ -14,7 +14,7 @@ export class MyDreamsPage implements OnInit {
 
     constructor(public navCtrl: NavController, private dreamService: DreamService) {}
 
-  ngOnInit() { this.getDreams(); }
+    ngOnInit() { this.getDreams(); }
 
     getDreams() {
         this.dreamService.getDreams()
