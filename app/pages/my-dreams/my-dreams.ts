@@ -8,16 +8,18 @@ import {Dream} from '../../dream';
   providers: [DreamService]
 })
 
-export class MyDreamsPage implements OnInit {
+export class MyDreamsPage {
+    authToken: number;
     public dreams = new Array<Dream>();
     public errorMessage = "";
 
-    constructor(public navCtrl: NavController, private dreamService: DreamService) {}
+    constructor(public navCtrl: NavController, private dreamService: DreamService) {
+        this.authToken = localStorage.getItem('id_token');
+        this.getMyDreams(this.authToken);
+    }
 
-    ngOnInit() { this.getDreams(); }
-
-    getDreams() {
-        this.dreamService.getDreams()
+    getMyDreams(authToken) {
+        this.dreamService.getDreams(authToken)
         .subscribe(
             dreams => this.dreams = dreams,
             error => console.error(error)//this.errorMessage = <any>error

@@ -6,7 +6,7 @@ var morgan = require('morgan');             // log requests to the console (expr
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var cors = require('cors');
- 
+
 // Configuration
 mongoose.connect('mongodb://jbellingham91:jesse1991@ds033126.mlab.com:33126/dreamcatcher', ['dream']);
  
@@ -35,17 +35,33 @@ var Dream = mongoose.model('Dream', {
  
 // Routes
  
-    // Get dreams
+    // Get all dreams
     app.get('/api/dreams', function(req, res) { 
         console.log("fetching dreams");
  
         // use mongoose to get all dreams in the database
         Dream.find(function(err, dreams) {
- 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err)
+            if (err) {
                 res.send(err)
+            }
+
+            res.json(dreams); // return all dreams in JSON format
+        });
+    });
+
+    // Get dreams of user
+    app.get('/api/dreamsofuser:userId', function(req, res) {
+        var userId = req.params.userId;
+        console.log("fetching dreams of user");
  
+        // use mongoose to get all dreams in the database
+        Dream.find({ 'userId': userId }, function(err, dreams) {
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err) {
+                res.send(err)
+            }
+
             res.json(dreams); // return all dreams in JSON format
         });
     });
@@ -61,8 +77,8 @@ var Dream = mongoose.model('Dream', {
             title: req.body.title,
             text: req.body.text,
             rating: req.body.rating,
-            dateAdded: req.body.dateAdded//,
-            //done: false
+            dateAdded: req.body.dateAdded,
+            done: false
         }, function(err, review) {
             if (err)
                 res.send(err);

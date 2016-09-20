@@ -30,6 +30,21 @@ router.get('dream/:id', function(req, res, next) {
     });
 });
 
+/* GET dreams of user*/
+
+router.get('dream/:userId', function(req, res, next) {
+    db.dream.find({
+        userId: mongojs.ObjectId(req.params.userId)
+    }, function(err, dreams) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.json(dreams);
+        }
+    });
+});
+
 /* POST -- Create a new dream */
 
 router.post('/dream', function(req, res, next) {

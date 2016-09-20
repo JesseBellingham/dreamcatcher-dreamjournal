@@ -10,8 +10,8 @@ import 'rxjs/Rx';
 export class DreamService {
     constructor (private http: Http) {}
 
-    getDreams(): Observable<Dream[]> {
-        return this.http.get('http://localhost:8080/api/dreams')
+    getDreams(authToken): Observable<Dream[]> {
+        return this.http.get('http://localhost:8080/api/dreamsofuser?userId=' + authToken)
         .map(this.extractData)
         .catch(this.handleError);
     }
