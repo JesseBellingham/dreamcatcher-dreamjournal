@@ -26,17 +26,22 @@ app.use(function(req, res, next) {
  
 // Models
 var Dream = mongoose.model('Dream', {
-    userId: String,
+    userid: String,
     title: String,
     text: String,
     rating: Number,
-    dateAdded: String
+    dateadded: String
+}),
+Comment = mongoose.model('Comment', {
+    commenterId: String,
+    text: String,
+    dateAdded: String,
 });
- 
-// Routes
- 
+
+// Dream routes
+
     // Get all dreams
-    app.get('/api/dreams', function(req, res) { 
+    app.get('/api/dreams', function(req, res) {
         console.log("fetching dreams");
  
         // use mongoose to get all dreams in the database
@@ -51,12 +56,12 @@ var Dream = mongoose.model('Dream', {
     });
 
     // Get dreams of user
-    app.get('/api/dreamsofuser:userId', function(req, res) {
-        var userId = req.params.userId;
+    app.get('/api/dreams/:user_id', function(req, res) {
+        //var userId = req.params.userId;
         console.log("fetching dreams of user");
  
         // use mongoose to get all dreams in the database
-        Dream.find({ 'userId': userId }, function(err, dreams) {
+        Dream.find({ userId: req.params.user_id }, function(err, dreams) {
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err) {
                 res.send(err)
@@ -67,7 +72,7 @@ var Dream = mongoose.model('Dream', {
     });
  
     // create review and send back all reviews after creation
-    app.post('/api/dream', function(req, res) {
+    app.post('/api/dreams', function(req, res) {
  
         console.log("creating dream");
  
@@ -90,19 +95,81 @@ var Dream = mongoose.model('Dream', {
                 res.json(dreams);
             });
         });
- 
     });
- 
+
     // delete a dream
     app.delete('/api/dreams/:dream_id', function(req, res) {
-        Review.remove({
+        Dream.remove({
             _id : req.params.dream_id
         }, function(err, dream) {
  
         });
     });
- 
- 
+
+// Comment routes
+
+    // Get all comments
+    app.get('/api/comments', function(req, res) {
+        console.log("fetching comments");
+
+        // use mongoose to get all comments in the database
+        Comment.find(function(err, comments) {
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err) {
+                res.send(err)
+            }
+
+            res.json(comments); // return all comments in JSON format
+        });
+    });
+
+    // Get comments of user
+    app.get('/api/comments/:user_id', function(req, res) {
+        console.log("fetching comments of user");
+
+        // use mongoose to get all comments in the database
+        Comment.find({ userId: req.params.user_id }, function(err, comments) {
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err) {
+                res.send(err)
+            }
+
+            res.json(comments); // return all comments in JSON format
+        });
+    });
+
+    // create review and send back all reviews after creation
+    app.post('/api/comments', function(req, res) {
+
+        console.log("creating comment");
+
+        // create a dream, information comes from AJAX request from Ionic
+        Comment.create({
+            commenterId: req.body.userId,
+            text: req.body.text,
+            dateAdded: req.body.dateAdded,
+            done: false
+        }, function(err, review) {
+            if (err)
+                res.send(err);
+
+            // get and return all the dreams after you create another
+            Comment.find(function(err, comments) {
+                if (err)
+                    res.send(err)
+                res.json(comments);
+            });
+        });
+    });
+
+    // delete a dream
+    app.delete('/api/comments/:comment_id', function(req, res) {
+        Dream.remove({
+            _id : req.params.comment_id
+        }, function(err, comment) {
+
+        });
+    });
 // listen (start app with node server.js) ======================================
 app.listen(8080);
 console.log("App listening on port 8080");

@@ -11,7 +11,7 @@ export class DreamService {
     constructor (private http: Http) {}
 
     getDreams(authToken): Observable<Dream[]> {
-        return this.http.get('http://localhost:8080/api/dreamsofuser?userId=' + authToken)
+        return this.http.get('http://localhost:8080/api/dreams/' + authToken)
         .map(this.extractData)
         .catch(this.handleError);
     }
@@ -29,7 +29,7 @@ export class DreamService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post('http://localhost:8080/api/dream', body, options)
+        return this.http.post('http://localhost:8080/api/dreams', body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
