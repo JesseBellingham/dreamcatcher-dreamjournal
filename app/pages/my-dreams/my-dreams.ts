@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { DreamService } from '../../services/dream-service';
+import {Component, OnInit} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import {DreamService} from '../../services/dream-service';
+import {LoggingService} from '../../services/logging-service';
 import {Dream} from '../../dream';
 
 @Component({
-  templateUrl: 'build/pages/my-dreams/my-dreams.html',
-  providers: [DreamService]
+    templateUrl: 'build/pages/my-dreams/my-dreams.html',
+    providers: [DreamService]
 })
 
 export class MyDreamsPage {
@@ -13,7 +14,7 @@ export class MyDreamsPage {
     public dreams = new Array<Dream>();
     public errorMessage = "";
 
-    constructor(public navCtrl: NavController, private dreamService: DreamService) {
+    constructor(public navCtrl: NavController, private dreamService: DreamService, private loggingService: LoggingService) {
         this.authToken = localStorage.getItem('id_token');
         this.getMyDreams(this.authToken);
     }
@@ -22,7 +23,9 @@ export class MyDreamsPage {
         this.dreamService.getDreams(authToken)
         .subscribe(
             dreams => this.dreams = dreams,
-            error => console.error(error)//this.errorMessage = <any>error
+            error => {//console.error(error)//this.errorMessage = <any>error
+                this.loggingService.addLogEntry(error);
+            }
         );
         console.log(this.dreams);
     }

@@ -26,16 +26,17 @@ app.use(function(req, res, next) {
  
 // Models
 var Dream = mongoose.model('Dream', {
-    userid: String,
+    userId: String,
     title: String,
     text: String,
     rating: Number,
-    dateadded: String
+    dateAdded: String
 }),
 Comment = mongoose.model('Comment', {
     commenterId: String,
     text: String,
     dateAdded: String,
+    rating: Number
 });
 
 // Dream routes
@@ -70,12 +71,12 @@ Comment = mongoose.model('Comment', {
             res.json(dreams); // return all dreams in JSON format
         });
     });
- 
-    // create review and send back all reviews after creation
+
+    // create dream and send back all dreams after creation
     app.post('/api/dreams', function(req, res) {
- 
+
         console.log("creating dream");
- 
+
         // create a dream, information comes from AJAX request from Ionic
         Dream.create({
             userId: req.body.userId,
@@ -87,7 +88,7 @@ Comment = mongoose.model('Comment', {
         }, function(err, review) {
             if (err)
                 res.send(err);
- 
+
             // get and return all the dreams after you create another
             Dream.find(function(err, dreams) {
                 if (err)
@@ -138,12 +139,12 @@ Comment = mongoose.model('Comment', {
         });
     });
 
-    // create review and send back all reviews after creation
+    // create comment and send back all comments after creation
     app.post('/api/comments', function(req, res) {
 
         console.log("creating comment");
 
-        // create a dream, information comes from AJAX request from Ionic
+        // create a comment, information comes from AJAX request from Ionic
         Comment.create({
             commenterId: req.body.userId,
             text: req.body.text,
@@ -162,9 +163,9 @@ Comment = mongoose.model('Comment', {
         });
     });
 
-    // delete a dream
+    // delete a comment
     app.delete('/api/comments/:comment_id', function(req, res) {
-        Dream.remove({
+        Comment.remove({
             _id : req.params.comment_id
         }, function(err, comment) {
 

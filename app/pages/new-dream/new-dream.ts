@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-//import { DreamListComponent } from '../../dream-list.component';
-import { DreamService } from '../../services/dream-service';
+import {Component} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import {DreamService} from '../../services/dream-service';
+import {LoggingService} from '../../services/logging-service';
 
 @Component({
     templateUrl: 'build/pages/new-dream/new-dream.html',
@@ -18,7 +18,7 @@ export class NewDreamPage {
         dateAdded: undefined
     };
 
-    constructor(public navCtrl: NavController, private dreamService: DreamService) {}
+    constructor(public navCtrl: NavController, private dreamService: DreamService, private loggingService: LoggingService) {}
 
     createNewDream() {
         let date = new Date();
@@ -26,11 +26,9 @@ export class NewDreamPage {
         this.dreamService.addDream(this.newDream)
          .subscribe(
              data => this.newDream = data,
-             err => console.error(err)
+             error => {
+                 this.loggingService.addLogEntry(error);
+             }//console.error(err)
          );
-
-        //var dream = this.newDream;
-        //this.dreamArray.push(this.newDream);
     }
-    //dreamListComponent.getDreams()
 }
