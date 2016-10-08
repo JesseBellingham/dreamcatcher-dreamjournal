@@ -1,5 +1,5 @@
-import { Injectable }      from '@angular/core';
-import { tokenNotExpired } from 'angular2-jwt';
+import {Injectable}      from '@angular/core';
+import {tokenNotExpired} from 'angular2-jwt';
 import {Subject} from 'rxjs/Subject';
 
 // Avoid name not found warnings
@@ -7,20 +7,20 @@ declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
-  // Configure Auth0
-  lock = new Auth0Lock('NRG0X77CP7qLlUSlIZoCIGZQtN2JA2Fo', 'jbellingham91.au.auth0.com', {});
-  private authToken = new Subject<number>();
+    // Configure Auth0
+    lock = new Auth0Lock('NRG0X77CP7qLlUSlIZoCIGZQtN2JA2Fo', 'jbellingham91.au.auth0.com', {});
+    private authToken = new Subject<number>();
 
-  public userAuthenticated = this.authToken.asObservable(); 
+    public userAuthenticated = this.authToken.asObservable(); 
 
-  constructor() {
-    // Add callback for lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
-      localStorage.setItem('id_token', authResult.idToken);
-      this.authToken.next(authResult.idToken)
-      //this.userAuth.emit(authResult.idToken);
-    });
-  }
+    constructor() {
+        // Add callback for lock `authenticated` event
+        this.lock.on("authenticated", (authResult) => {
+            localStorage.setItem('id_token', authResult.idToken);
+            this.authToken.next(authResult.idToken)
+            //this.userAuth.emit(authResult.idToken);
+        });
+    }
 
     public login() {
         // Call the show method to display the widget.
@@ -33,9 +33,9 @@ export class AuthService {
         return tokenNotExpired();
     };
 
-  public logout() {
-    // Remove token from localStorage
-    localStorage.removeItem('id_token');
-    this.authToken.next(undefined)
-  };
+    public logout() {
+        // Remove token from localStorage
+        localStorage.removeItem('id_token');
+        this.authToken.next(undefined)
+    };
 }

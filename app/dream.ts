@@ -5,6 +5,7 @@ export class Dream {
         public text: string,
         public rating: number,
         public userId: string,
-        public dateAdded: string
+        public dateCreated: Date,
+        public lastModified: Date
     ) {}
 }

@@ -6,13 +6,13 @@ import {Dream} from '../../dream';
 
 @Component({
     templateUrl: 'build/pages/my-dreams/my-dreams.html',
-    providers: [DreamService]
+    providers: [DreamService, LoggingService]
 })
 
 export class MyDreamsPage {
     authToken: number;
     public dreams = new Array<Dream>();
-    public errorMessage = "";
+    //public errorMessage = "";
 
     constructor(public navCtrl: NavController, private dreamService: DreamService, private loggingService: LoggingService) {
         this.authToken = localStorage.getItem('id_token');
@@ -20,7 +20,7 @@ export class MyDreamsPage {
     }
 
     getMyDreams(authToken) {
-        this.dreamService.getDreams(authToken)
+        this.dreamService.getMyDreams(authToken)
         .subscribe(
             dreams => this.dreams = dreams,
             error => {//console.error(error)//this.errorMessage = <any>error

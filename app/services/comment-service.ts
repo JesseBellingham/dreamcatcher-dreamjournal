@@ -12,17 +12,17 @@ export class CommentService {
     
     getComments(authToken): Observable<Comment[]> {
         return this.http.get('http://localhost:8080/api/comments/' + authToken)
-        .map(this.extractData)
-        .catch(this.handleError);
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
     addComment(newComment: any): Observable<Comment> {
         let body = JSON.stringify({
-                userId: newComment.userId,
-                title: newComment.title || "",
-                text: newComment.text || "",
-                rating: newComment.rating,
-                dateAdded: newComment.dateAdded
+            userId: newComment.userId,
+            title: newComment.title || "",
+            text: newComment.text || "",
+            rating: newComment.rating,
+            dateAdded: newComment.dateAdded
         });
 
         let headers = new Headers({ 'Content-Type': 'application/json' });

@@ -1,18 +1,14 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Feed</ion-title>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding class="home">
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>app/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
-  <button (click)="logout()">Logout</button>
+    <ion-card *ngFor="let dream of dreams">
+        <ion-card-header *ngIf="dream.title">{{dream.title}}</ion-card-header>
+        <ion-card-content>{{dream.text}}</ion-card-content>
+        <ion-label class="dream-date-posted">{{dream.dateCreated | date:"HH"}}:{{dream.dateCreated | date:"mm"}} {{dream.dateCreated | date: 'dd/MM/yy'}}</ion-label>
+        <label (click)="readFull(dream)">Read full dream</label>
+    </ion-card>
 </ion-content>

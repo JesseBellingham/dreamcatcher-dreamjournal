@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController, Platform, Page } from 'ionic-angular';
-import { FbProvider } from '../../providers/fb-provider';
+import {Component} from '@angular/core';
+import {NavController, Platform, Page} from 'ionic-angular';
+import {FbProvider} from '../../providers/fb-provider';
 import {HomePage} from '../home/home';
 import {TabsPage} from '../tabs/tabs';
 import {AuthService} from '../../services/auth-service';
@@ -11,13 +11,10 @@ import {AuthService} from '../../services/auth-service';
 })
 export class LoginPage {
     authToken: number;
-    constructor(
-        public navCtrl: NavController,
-        private fbProvider: FbProvider,
-        private authService: AuthService) {
+    constructor(public navCtrl: NavController, private authService: AuthService) {
 
         this.authToken = localStorage.getItem('id_token');
-        if (this.authToken){
+        if (this.authToken) {
             this.navCtrl.push(TabsPage);
         }
         authService.userAuthenticated.subscribe(
@@ -27,11 +24,6 @@ export class LoginPage {
                     this.navCtrl.push(TabsPage);
                 }
         })
-        // this.platform = platform;
-        // this.fb = fbProvider;
-        // this.email = '';
-        // this.name = '';
-        // this.id = '';
     }
 
     login() {

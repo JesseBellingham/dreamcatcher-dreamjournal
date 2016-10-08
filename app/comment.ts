@@ -4,6 +4,7 @@ export class Comment {
         public text: string,
         public rating: number,
         public userId: string,
-        public dateAdded: string
+        public dateCreated: string,
+        public lastModified: string
     ) {}
 }

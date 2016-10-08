@@ -5,30 +5,30 @@ import {LoggingService} from '../../services/logging-service';
 
 @Component({
     templateUrl: 'build/pages/new-dream/new-dream.html',
-    providers: [DreamService]
+    providers: [DreamService, LoggingService]
 })
 export class NewDreamPage {
-    private userId = localStorage.getItem('id_token');
-    //private dateNow = new Date().toLocaleDateString;
+    private userId = 'gfhjtrfghrdghdhfdgty76u7y65htr';//localStorage.getItem('id_token');
     public newDream = {
         title: undefined,
         text: undefined,
         rating: 0,
         userId: this.userId,
-        dateAdded: undefined
+        dateCreated: undefined,
+        lastModified: undefined
     };
 
     constructor(public navCtrl: NavController, private dreamService: DreamService, private loggingService: LoggingService) {}
 
     createNewDream() {
         let date = new Date();
-        this.newDream.dateAdded = date.toUTCString();
+        this.newDream.dateCreated = date;
         this.dreamService.addDream(this.newDream)
-         .subscribe(
-             data => this.newDream = data,
-             error => {
-                 this.loggingService.addLogEntry(error);
-             }//console.error(err)
-         );
+             .subscribe(
+                 data => this.newDream = data,
+                 error => {
+                     this.loggingService.addLogEntry(error);
+                 }//console.error(err)
+             );
     }
 }

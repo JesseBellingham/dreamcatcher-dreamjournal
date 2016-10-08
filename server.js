@@ -9,28 +9,28 @@ var cors = require('cors');
 
 // Configuration
 mongoose.connect('mongodb://jbellingham91:jesse1991@ds033126.mlab.com:33126/dreamcatcher', ['dream']);
- 
+
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 app.use(cors());
- 
+
 app.use(function(req, res, next) {
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-   next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
- 
+
 // Models
 var Dream = mongoose.model('Dream', {
     userId: String,
     title: String,
     text: String,
     rating: Number,
-    dateAdded: String
+    dateCreated: Date
 }),
 Comment = mongoose.model('Comment', {
     commenterId: String,
@@ -44,9 +44,24 @@ Comment = mongoose.model('Comment', {
     // Get all dreams
     app.get('/api/dreams', function(req, res) {
         console.log("fetching dreams");
- 
+
         // use mongoose to get all dreams in the database
         Dream.find(function(err, dreams) {
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err) {
+                res.send(err)
+            }
+
+            res.json(dreams); // return all dreams in JSON format
+        });
+    });
+
+    // Get dream feed of user
+    app.get('/api/feed/:user_id', function(req, res) {
+        console.log("fetching dreams");
+
+        // use mongoose to get all dreams in the database
+        Dream.find({ userId: {'$ne' : req.params.user_id }}, function(err, dreams) {
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err) {
                 res.send(err)
@@ -83,7 +98,7 @@ Comment = mongoose.model('Comment', {
             title: req.body.title,
             text: req.body.text,
             rating: req.body.rating,
-            dateAdded: req.body.dateAdded,
+            dateCreated: req.body.dateCreated,
             done: false
         }, function(err, review) {
             if (err)
@@ -103,7 +118,7 @@ Comment = mongoose.model('Comment', {
         Dream.remove({
             _id : req.params.dream_id
         }, function(err, dream) {
- 
+
         });
     });
 

@@ -10,8 +10,14 @@ import 'rxjs/Rx';
 export class DreamService {
     constructor (private http: Http) {}
 
-    getDreams(authToken): Observable<Dream[]> {
+    getMyDreams(authToken): Observable<Dream[]> {
         return this.http.get('http://localhost:8080/api/dreams/' + authToken)
+        .map(this.extractData)
+        .catch(this.handleError);
+    }
+
+    getDreamFeed(userId): Observable<Dream[]> {
+        return this.http.get('http://localhost:8080/api/feed/' + userId)
         .map(this.extractData)
         .catch(this.handleError);
     }
@@ -22,7 +28,7 @@ export class DreamService {
             title: newDream.title || "",
             text: newDream.text || "",
             rating: newDream.rating,
-            dateAdded: newDream.dateAdded
+            dateCreated: newDream.dateCreated
         });
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
