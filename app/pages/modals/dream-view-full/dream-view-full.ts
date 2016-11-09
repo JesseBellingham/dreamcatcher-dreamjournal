@@ -4,7 +4,7 @@ import {Page, ModalController, Platform, NavParams, ViewController} from 'ionic-
     templateUrl: 'build/pages/modals/dream-view-full/dream-view-full.html'
 })
 export class DreamViewFullModal {
-    dream;
+    public dream;
 
     constructor(
         public platform: Platform,

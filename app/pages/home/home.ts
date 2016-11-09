@@ -63,7 +63,7 @@ export class HomePage {
     }
 
     readFull(dream) {
-        let modal = this.modalCtrl.create(DreamViewFullModal, dream);
+        let modal = this.modalCtrl.create(DreamViewFullModal, {dream});
         modal.present();
     }
 

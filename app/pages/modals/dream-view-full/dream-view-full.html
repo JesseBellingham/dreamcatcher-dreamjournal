@@ -1,11 +1,11 @@
-<ion-toolbar primary>
-  <ion-buttons start>
-    <button (click)="dismiss()">
-      Cancel
-    </button>
-  </ion-buttons>
-  <ion-title>Sample Modal</ion-title>
-</ion-toolbar>
-<ion-content padding class="sample-modal-page">
-  my sample modal page
+<ion-header>
+    <ion-toolbar primary>
+        <ion-buttons start>
+            <button (click)="dismiss()">Cancel</button>
+        </ion-buttons>
+    <ion-title>{{dream.title}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <p>{{dream.text}}</p>
 </ion-content>
